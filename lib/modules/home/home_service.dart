@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 Future<Countries> countryList(String searchText) async {
   try {
     var response = await Dio().get(
-      '${baseURL}countries',
+      '$countriesURL',
       options: Options(
         headers: {"x-rapidapi-host": "$hostURL", "x-rapidapi-key": "$apiKey"},
       ),
