@@ -10,43 +10,44 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Covid App"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            searchField(),
-            FutureBuilder<Countries>(
-                future: controller.getCountries(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.active:
-                    case ConnectionState.waiting:
-                      return Center(child: CircularProgressIndicator());
-
-                    case ConnectionState.done:
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data.results,
-                          itemBuilder: (context, i) {
-                            return ListTile(
-                                title: Text("Country"),
-                                trailing: Text(
-                                  snapshot.data.response[i],
-                                ));
-                          });
-                      break;
-                    default:
-                      return Center(child: CircularProgressIndicator());
-                      break;
-                  }
-                })
-          ],
+        appBar: AppBar(
+          title: Text("Covid App"),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: Obx(() => SingleChildScrollView(
+              child: Column(
+                children: [
+                  searchField(),
+                  FutureBuilder<Countries>(
+                      future: controller.countries.value,
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.active:
+                          case ConnectionState.waiting:
+                            return Center(child: CircularProgressIndicator());
+
+                          case ConnectionState.done:
+                            return snapshot.data.response.length > 0
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot.data.response.length,
+                                    itemBuilder: (context, i) {
+                                      return ListTile(
+                                          title: Text("Country"),
+                                          trailing: Text(
+                                            snapshot.data.response[i],
+                                          ));
+                                    })
+                                : Container(child: Text("No data"));
+                            break;
+                          default:
+                            return Center(child: CircularProgressIndicator());
+                            break;
+                        }
+                      })
+                ],
+              ),
+            )));
   }
 }
