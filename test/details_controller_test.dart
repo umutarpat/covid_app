@@ -9,6 +9,6 @@ void main() {
     Statistics statistics;
     statistics = await controller.getStatistics("usa");
 
-    expect(statistics.response.length, isNot(equals(0)));
+    expect(statistics.results, isNot(equals(0)));
   });
 }

@@ -10,6 +10,6 @@ void main() {
     Countries countries;
     countries = await controller.getCountries();
 
-    expect(countries.response.length, isNot(equals(0)));
+    expect(countries.results, isNot(equals(0)));
   });
 }
