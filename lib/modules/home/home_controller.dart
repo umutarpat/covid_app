@@ -9,10 +9,10 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    countries.value = getCountries(searchText: "");
+    countries.value = getCountries();
   }
 
-  Future<Countries> getCountries({String searchText}) async {
+  Future<Countries> getCountries({String searchText = ""}) async {
     return await countryList(searchText);
   }
 }
